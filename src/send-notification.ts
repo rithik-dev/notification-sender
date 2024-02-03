@@ -1,5 +1,5 @@
 import * as admin from 'firebase-admin';
-import {messaging} from "firebase-admin";
+import {messaging} from 'firebase-admin';
 import BatchResponse = messaging.BatchResponse;
 import MulticastMessage = messaging.MulticastMessage;
 

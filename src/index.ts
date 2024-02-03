@@ -1,7 +1,8 @@
-import * as admin from "firebase-admin";
-import {config} from "./configs";
-import {sendNotification} from "./send-notification";
+import 'dotenv/config'
 
+import * as admin from 'firebase-admin';
+import {sendNotification} from './send-notification';
+import {config} from './configs';
 
 admin.initializeApp({
     credential: admin.credential.cert(config),
