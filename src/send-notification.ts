@@ -39,7 +39,7 @@ const sendNotification = async (data: SendNotificationFunctionParams): Promise<B
             apns: {
                 payload: {
                     aps: {
-                        // mutableContent: true,
+                        mutableContent: true,
                         sound: data.ios?.sound,
                     },
                 },
