@@ -7,13 +7,11 @@ interface SendNotificationFunctionParams {
     fcm_tokens: string[];
     title: string;
     body: string;
+    sound?: string;
     android?: {
         channelId?: string;
-        sound?: string;
     };
-    ios?: {
-        sound?: string;
-    }
+    ios?: {}
     imageUrl?: string;
     payload?: Record<string, string>;
     overrides?: Partial<MulticastMessage>,
@@ -21,7 +19,16 @@ interface SendNotificationFunctionParams {
 
 
 const sendNotification = async (data: SendNotificationFunctionParams): Promise<BatchResponse> => {
-    const {fcm_tokens, title, body, imageUrl, payload, overrides} = data;
+    const {
+        fcm_tokens,
+        title,
+        body,
+        imageUrl,
+        sound,
+        payload,
+        overrides,
+        android,
+    } = data;
 
     try {
         const res = await admin.messaging().sendEachForMulticast({
@@ -32,15 +39,15 @@ const sendNotification = async (data: SendNotificationFunctionParams): Promise<B
                     title,
                     body,
                     imageUrl,
-                    channelId: data.android?.channelId,
-                    sound: data.android?.sound,
+                    sound,
+                    channelId: android?.channelId,
                 },
             },
             apns: {
                 payload: {
                     aps: {
+                        sound,
                         mutableContent: true,
-                        sound: data.ios?.sound,
                     },
                 },
                 fcmOptions: {

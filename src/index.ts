@@ -13,11 +13,10 @@ admin.initializeApp({
         fcm_tokens: [],
         title: '[TEST] Title',
         body: '[TEST] Body',
-        imageUrl: 'https://picsum.photos/seed/98765/1300/900',
+        imageUrl: `https://picsum.photos/seed/${Math.floor(Math.random() * 100000)}/1300/900`,
         android: {
             channelId: 'Notifications',
         },
-        ios: {},
         payload: {},
     });
 })()
