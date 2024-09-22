@@ -29,9 +29,9 @@ const sendNotification = async (data: SendNotificationFunctionParams): Promise<B
             data: payload,
             android: {
                 notification: {
-                    title: title,
-                    body: body,
-                    imageUrl: imageUrl,
+                    title,
+                    body,
+                    imageUrl,
                     channelId: data.android?.channelId,
                     sound: data.android?.sound,
                 },
@@ -43,11 +43,21 @@ const sendNotification = async (data: SendNotificationFunctionParams): Promise<B
                         sound: data.ios?.sound,
                     },
                 },
+                fcmOptions: {
+                    imageUrl,
+                }
+            },
+            webpush: {
+                notification: {
+                    title,
+                    body,
+                    image: imageUrl,
+                },
             },
             notification: {
-                title: title,
-                body: body,
-                imageUrl: imageUrl,
+                title,
+                body,
+                imageUrl,
             },
             ...overrides,
         });
