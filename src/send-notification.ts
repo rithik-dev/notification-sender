@@ -7,8 +7,15 @@ interface SendNotificationFunctionParams {
     fcm_tokens: string[];
     title: string;
     body: string;
+    android?: {
+        channelId?: string;
+        sound?: string;
+    };
+    ios?: {
+        sound?: string;
+    }
     imageUrl?: string;
-    payload?: Record<string, any>;
+    payload?: Record<string, string>;
     overrides?: Partial<MulticastMessage>,
 }
 
@@ -16,28 +23,24 @@ interface SendNotificationFunctionParams {
 const sendNotification = async (data: SendNotificationFunctionParams): Promise<BatchResponse> => {
     const {fcm_tokens, title, body, imageUrl, payload, overrides} = data;
 
-    const iosSound = 'compliment.caf';
-
     try {
-        const res = await admin.messaging().sendMulticast({
+        const res = await admin.messaging().sendEachForMulticast({
             tokens: fcm_tokens,
-            data: {
-                'ios-sound': iosSound,
-                ...payload,
-            },
+            data: payload,
             android: {
                 notification: {
                     title: title,
                     body: body,
-                    sound: 'compliment',
-                    channelId: 'compliment',
+                    imageUrl: imageUrl,
+                    channelId: data.android?.channelId,
+                    sound: data.android?.sound,
                 },
             },
             apns: {
                 payload: {
                     aps: {
                         // mutableContent: true,
-                        sound: iosSound,
+                        sound: data.ios?.sound,
                     },
                 },
             },
